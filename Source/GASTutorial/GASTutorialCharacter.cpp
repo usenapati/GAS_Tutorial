@@ -15,6 +15,9 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AttributeSets/GAS_AttributeSetBase.h"
 #include "AbilitySystem/Components/GAS_AbilitySystemComponentBase.h"
+#include "DataAssets/CharacterDataAsset.h"
+
+#include "Net/UnrealNetwork.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -66,6 +69,16 @@ AGASTutorialCharacter::AGASTutorialCharacter()
 	AttributeSet = CreateDefaultSubobject<UGAS_AttributeSetBase>(TEXT("AttributeSet"));
 }
 
+void AGASTutorialCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if(IsValid(CharacterDataAsset))
+	{
+		SetCharacterData(CharacterDataAsset->CharacterData);
+	}
+}
+
 UAbilitySystemComponent* AGASTutorialCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -87,22 +100,18 @@ bool AGASTutorialCharacter::ApplyGameplayEffectToSelf(TSubclassOf<UGameplayEffec
 	return false;
 }
 
-void AGASTutorialCharacter::InitializeAttributes()
+void AGASTutorialCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	if (GetLocalRole() == ROLE_Authority && DefaultAttributeSet && AttributeSet)
-	{
-		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
-		EffectContext.AddSourceObject(this);
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-		ApplyGameplayEffectToSelf(DefaultAttributeSet, EffectContext);
-	}
+	DOREPLIFETIME(AGASTutorialCharacter, CharacterData);
 }
 
 void AGASTutorialCharacter::GiveAbilities()
 {
 	if (HasAuthority() && AbilitySystemComponent)
 	{
-		for (auto DefaultAbility : DefaultAbilities)
+		for (auto DefaultAbility : CharacterData.Abilities)
 		{
 			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(DefaultAbility));
 		}
@@ -116,7 +125,7 @@ void AGASTutorialCharacter::ApplyStartupEffects()
 		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 		EffectContext.AddSourceObject(this);
 
-		for (auto CharacterEffect : DefaultEffects)
+		for (auto CharacterEffect : CharacterData.Effects)
 		{
 			ApplyGameplayEffectToSelf(CharacterEffect, EffectContext);
 		}
@@ -128,8 +137,7 @@ void AGASTutorialCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-
-	InitializeAttributes();
+	
 	GiveAbilities();
 	ApplyStartupEffects();
 }
@@ -140,7 +148,6 @@ void AGASTutorialCharacter::OnRep_PlayerState()
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	
-	InitializeAttributes();
 }
 
 void AGASTutorialCharacter::BeginPlay()
@@ -157,6 +164,7 @@ void AGASTutorialCharacter::BeginPlay()
 		}
 	}
 }
+
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -217,3 +225,27 @@ void AGASTutorialCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+
+FCharacterData AGASTutorialCharacter::GetCharacterData() const
+{
+	return CharacterData;
+}
+
+void AGASTutorialCharacter::SetCharacterData(const FCharacterData& InCharacterData)
+{
+	CharacterData = InCharacterData;
+	
+	InitFromCharacterData(CharacterData);
+}
+
+void AGASTutorialCharacter::OnRep_CharacterData()
+{
+	InitFromCharacterData(CharacterData, true);
+}
+
+void AGASTutorialCharacter::InitFromCharacterData(const FCharacterData& InCharacterData, bool bFromReplication)
+{
+	
+}
+
