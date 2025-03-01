@@ -15,6 +15,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/AttributeSets/GAS_AttributeSetBase.h"
 #include "AbilitySystem/Components/GAS_AbilitySystemComponentBase.h"
+#include "ActorComponents/GAS_CharacterMovementComponent.h"
 #include "DataAssets/CharacterDataAsset.h"
 
 #include "Net/UnrealNetwork.h"
@@ -24,7 +25,8 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 //////////////////////////////////////////////////////////////////////////
 // AGASTutorialCharacter
 
-AGASTutorialCharacter::AGASTutorialCharacter()
+AGASTutorialCharacter::AGASTutorialCharacter(const FObjectInitializer& ObjectInitializer) :
+Super(ObjectInitializer.SetDefaultSubobjectClass<UGAS_CharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -68,6 +70,7 @@ AGASTutorialCharacter::AGASTutorialCharacter()
 	
 	AttributeSet = CreateDefaultSubobject<UGAS_AttributeSetBase>(TEXT("AttributeSet"));
 }
+
 
 void AGASTutorialCharacter::PostInitializeComponents()
 {

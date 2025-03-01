@@ -25,10 +25,28 @@ void UGAS_AttributeSetBase::OnRep_MaxHealth(const FGameplayAttributeData& OldMax
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGAS_AttributeSetBase, MaxHealth, OldMaxHealth);
 }
 
+void UGAS_AttributeSetBase::OnRep_Stamina(const FGameplayAttributeData& OldStamina)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGAS_AttributeSetBase, Stamina, OldStamina);
+}
+
+void UGAS_AttributeSetBase::OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGAS_AttributeSetBase, MaxStamina, OldMaxStamina);
+}
+
+void UGAS_AttributeSetBase::OnRep_MaxMovementSpeed(const FGameplayAttributeData& OldMaxMovementSpeed)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGAS_AttributeSetBase, MaxMovementSpeed, OldMaxMovementSpeed);
+}
+
 void UGAS_AttributeSetBase::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty> & OutLifetimeProps ) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UGAS_AttributeSetBase, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGAS_AttributeSetBase, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGAS_AttributeSetBase, Stamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGAS_AttributeSetBase, MaxStamina, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGAS_AttributeSetBase, MaxMovementSpeed, COND_None, REPNOTIFY_Always);
 }

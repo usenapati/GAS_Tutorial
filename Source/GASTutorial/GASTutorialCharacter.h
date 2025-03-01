@@ -52,7 +52,7 @@ class AGASTutorialCharacter : public ACharacter, public IAbilitySystemInterface
 	UInputAction* LookAction;
 
 public:
-	AGASTutorialCharacter();
+	AGASTutorialCharacter(const FObjectInitializer& ObjectInitializer);
 
 	virtual void PostInitializeComponents() override;
 
