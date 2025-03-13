@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/AttributeSets/GAS_AttributeSetBase.h"
 #include "GameplayEffectExtension.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Net/UnrealNetwork.h"
 
 void UGAS_AttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
@@ -12,6 +14,17 @@ void UGAS_AttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCa
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
+	else if (Data.EvaluatedData.Attribute == GetMaxMovementSpeedAttribute())
+	{
+		ACharacter* OwningCharacter = Cast<ACharacter>(GetOwningActor());
+		UCharacterMovementComponent* CharacterMovement = OwningCharacter ? OwningCharacter->GetCharacterMovement() : nullptr;
+
+		if (CharacterMovement)
+		{
+			const float MaxSpeed = GetMaxMovementSpeed();
+			CharacterMovement->MaxWalkSpeed = MaxSpeed;
+		}
 	}
 }
 
