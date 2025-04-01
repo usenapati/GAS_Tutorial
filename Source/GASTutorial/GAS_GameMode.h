@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "GASTutorialGameMode.generated.h"
+#include "GAS_GameMode.generated.h"
 
 UCLASS(minimalapi)
-class AGASTutorialGameMode : public AGameModeBase
+class AGAS_GameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
 public:
-	AGASTutorialGameMode();
+	AGAS_GameMode();
 };
 
 

@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "GASTutorialGameMode.h"
-#include "GASTutorialCharacter.h"
+#include "GAS_GameMode.h"
+#include "GAS_Character.h"
 #include "UObject/ConstructorHelpers.h"
 
-AGASTutorialGameMode::AGASTutorialGameMode()
+AGAS_GameMode::AGAS_GameMode()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));

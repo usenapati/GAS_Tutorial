@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "GASTutorialTypes.h"
+#include "GAS_Types.h"
 #include "Abilities/GameplayAbility.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
-#include "GASTutorialCharacter.generated.h"
+#include "GAS_Character.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
@@ -23,7 +23,7 @@ class UGameplayAbility;
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config=Game)
-class AGASTutorialCharacter : public ACharacter, public IAbilitySystemInterface
+class AGAS_Character : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -52,7 +52,7 @@ class AGASTutorialCharacter : public ACharacter, public IAbilitySystemInterface
 	UInputAction* LookAction;
 
 public:
-	AGASTutorialCharacter(const FObjectInitializer& ObjectInitializer);
+	AGAS_Character(const FObjectInitializer& ObjectInitializer);
 
 	virtual void PostInitializeComponents() override;
 

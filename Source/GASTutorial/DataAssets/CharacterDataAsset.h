@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GASTutorialTypes.h"
+#include "GAS_Types.h"
 #include "Engine/DataAsset.h"
 #include "CharacterDataAsset.generated.h"
 
