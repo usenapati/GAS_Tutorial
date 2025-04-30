@@ -245,6 +245,11 @@ void AGAS_Character::SetCharacterData(const FCharacterData& InCharacterData)
 	InitFromCharacterData(CharacterData);
 }
 
+UFootstepsComponent* AGAS_Character::GetFootstepsComponent() const
+{
+	return FootstepsComponent;
+}
+
 void AGAS_Character::OnRep_CharacterData()
 {
 	InitFromCharacterData(CharacterData, true);

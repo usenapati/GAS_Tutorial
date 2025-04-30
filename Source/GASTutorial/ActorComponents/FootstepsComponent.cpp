@@ -12,8 +12,8 @@ static TAutoConsoleVariable<int32> CVarShowFootsteps(
 	TEXT("ShowDebugFootsteps"),
 	0,
 	TEXT("Draws debug info about footsteps")
-	TEXT("  0: off/n")
-	TEXT("  1: off/n"),
+	TEXT("  0: off\n")
+	TEXT("  1: on\n"),
 	ECVF_Cheat);
 
 // Sets default values for this component's properties
@@ -40,6 +40,7 @@ void UFootstepsComponent::HandleFootstep(EFoot Foot)
 {
 	if (AGAS_Character* Character = Cast<AGAS_Character>(GetOwner()))
 	{
+		const int32 DebugShowFootsteps = CVarShowFootsteps.GetValueOnAnyThread();
 		if (USkeletalMeshComponent* Mesh = Character->GetMesh())
 		{
 			FHitResult HitResult;
@@ -62,7 +63,32 @@ void UFootstepsComponent::HandleFootstep(EFoot Foot)
 						{
 							UGameplayStatics::PlaySoundAtLocation(this, PhysicalMaterial->FootstepSound, Location, 1.f);
 						}
+
+						if (DebugShowFootsteps > 0)
+						{
+							DrawDebugString(GetWorld(), Location, GetNameSafe(PhysicalMaterial), nullptr, FColor::White, 4.f);
+						}
 					}
+
+					if (DebugShowFootsteps > 0)
+					{
+						DrawDebugSphere(GetWorld(), Location, 16, 16, FColor::Red, false, 4.f);
+					}
+				}
+				else
+				{
+					if (DebugShowFootsteps > 0)
+					{
+						DrawDebugLine(GetWorld(), Location, Location + FVector::UpVector * -50.f, FColor::Red, false, 4.f, 0, 1);
+					}
+				}
+			}
+			else
+			{
+				if (DebugShowFootsteps > 0)
+				{
+					DrawDebugSphere(GetWorld(), Location, 16, 16, FColor::Red, false, 4.f);
+					DrawDebugLine(GetWorld(), Location, Location + FVector::UpVector * -50.f, FColor::Red, false, 4.f, 0, 1);
 				}
 			}
 		}
