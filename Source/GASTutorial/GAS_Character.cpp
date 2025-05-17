@@ -113,6 +113,20 @@ void AGAS_Character::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(AGAS_Character, CharacterData);
 }
 
+void AGAS_Character::PawnClientRestart()
+{
+	Super::PawnClientRestart();
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->ClearAllMappings();
+
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+}
+
 void AGAS_Character::GiveAbilities()
 {
 	if (HasAuthority() && AbilitySystemComponent)
