@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Abilities/GA_Jump.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 
@@ -16,7 +17,7 @@ bool UGA_Jump::CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const
 	const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags,
 	FGameplayTagContainer* OptionalRelevantTags) const
 {
-	if (Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags))
+	if (!Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags))
 	{
 		return false;
 	}
@@ -33,19 +34,19 @@ void UGA_Jump::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 		{
 			return;
 		}
-
-		ACharacter* Character = CastChecked<ACharacter>(ActorInfo->AvatarActor.Get());
+		Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+		const auto Actor = ActorInfo->AvatarActor.Get();
+		ACharacter* Character = CastChecked<ACharacter>(Actor, ECastCheckedType::NullAllowed);
 		Character->Jump();
-
-		if(UAbilitySystemComponent* AbilityComponent = ActorInfo->AbilitySystemComponent.Get())
+		//UAbilitySystemComponent* AbilityComponent = ActorInfo->AbilitySystemComponent.Get()
+		if(UAbilitySystemComponent* AbilityComponent =  UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Character))
 		{
 			FGameplayEffectContextHandle EffectContext = AbilityComponent->MakeEffectContext();
 
 			FGameplayEffectSpecHandle SpecHandle = AbilityComponent->MakeOutgoingSpec(JumpEffect, 1, EffectContext);
 			if(SpecHandle.IsValid())
 			{
-				FActiveGameplayEffectHandle ActiveGEHandle = AbilityComponent->ApplyGameplayEffectSpecToSelf(
-					*SpecHandle.Data.Get());
+				FActiveGameplayEffectHandle ActiveGEHandle = AbilityComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get(), AbilityComponent->GetPredictionKeyForNewAction());
 
 				if (!ActiveGEHandle.WasSuccessfullyApplied())
 				{

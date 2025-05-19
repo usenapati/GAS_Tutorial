@@ -206,7 +206,7 @@ void AGAS_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AGAS_Character::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AGAS_Character::StopJumping);
+		//EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AGAS_Character::StopJumping);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AGAS_Character::Move);
