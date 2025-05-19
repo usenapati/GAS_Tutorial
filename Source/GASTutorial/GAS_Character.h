@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GAS_Types.h"
+#include "InputActionValue.h"
 #include "Abilities/GameplayAbility.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -63,6 +64,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	virtual void PawnClientRestart() override;
+
+	virtual void Landed(const FHitResult& Hit) override;
 protected:
 	void GiveAbilities();
 
@@ -86,8 +89,21 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
 
+	/** Called for jump input */
+	void Jump(const FInputActionValue& Value);
+
+	/** Called for jump input */
+	void StopJumping(const FInputActionValue& Value);
+
+	// Gameplay Effects
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTag JumpEventTag;
+
+	// Gameplay Tags
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTagContainer InAirTags;
+	
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
