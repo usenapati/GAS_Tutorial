@@ -8,13 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5c4b7864-fcbc-4f91-a57e-c52cc13fd1c6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.GASTutorial.dir/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GASTutorial.dir/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GASTutorial.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GASTutorial.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/ActorComponents/FootstepsComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/ActorComponents/FootstepsComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AnimNotifies/AnimNotify_Step.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AnimNotifies/AnimNotify_Step.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AnimNotifies/AnimNotify_Step.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AnimNotifies/AnimNotify_Step.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/GAS_Character.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/GAS_Character.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/GAS_Character.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/GAS_Character.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Abilities/BP_GA_Jump.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/AbilitySystem/Abilities/BP_GA_Jump.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GAS_GameplayAbility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GAS_GameplayAbility.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GAS_GameplayAbility.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GAS_GameplayAbility.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GA_Jump.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GA_Jump.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GA_Jump.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/GASTutorial/AbilitySystem/Abilities/GA_Jump.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +28,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../../../../Program Files (x86)/UE_5.3/Engine/Source/Runtime/Engine/Classes/Animation/AnimNotifies/AnimNotify.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files (x86)/UE_5.3/Engine/Source/Runtime/Engine/Classes/GameFramework/Pawn.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files (x86)/UE_5.3/Engine/Source/Runtime/Engine/Private/Character.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files (x86)/UE_5.3/Engine/Source/Runtime/Engine/Public/Animation/AnimNotifyQueue.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -153,6 +154,11 @@
       <workItem from="1743791739456" duration="1964000" />
       <workItem from="1745095769449" duration="9825000" />
       <workItem from="1745181001831" duration="3543000" />
+      <workItem from="1745988494400" duration="3537000" />
+      <workItem from="1746757661846" duration="1214000" />
+      <workItem from="1747447801246" duration="8477000" />
+      <workItem from="1748829318948" duration="2012000" />
+      <workItem from="1748831880750" duration="8720000" />
     </task>
     <servers />
   </component>
