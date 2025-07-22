@@ -4,22 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/GAS_GameplayAbility.h"
-#include "GA_Jump.generated.h"
-
-class UGameplayEffect;
+#include "GA_Crouch.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GASTUTORIAL_API UGA_Jump : public UGAS_GameplayAbility
+class GASTUTORIAL_API UGA_Crouch : public UGAS_GameplayAbility
 {
 	GENERATED_BODY()
 
-	UGA_Jump();
+	UGA_Crouch();
 
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags = nullptr, const FGameplayTagContainer* TargetTags = nullptr, OUT FGameplayTagContainer* OptionalRelevantTags = nullptr) const override;
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+		
+	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
+	
 	
 };
