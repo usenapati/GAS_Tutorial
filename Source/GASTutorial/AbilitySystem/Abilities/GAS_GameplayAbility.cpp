@@ -34,7 +34,7 @@ void UGAS_GameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 	if (IsInstantiated())
 	{
-		for	(auto GameplayEffect : OngoingEffectsToJustApplyOnStart)
+		for	(auto GameplayEffect : OngoingEffectsToRemoveOnEnd)
 		{
 			if (!GameplayEffect.Get()) continue;
 
