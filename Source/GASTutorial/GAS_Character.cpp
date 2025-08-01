@@ -47,6 +47,7 @@ Super(ObjectInitializer.SetDefaultSubobjectClass<UGAS_CharacterMovementComponent
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = 350.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
@@ -71,6 +72,9 @@ Super(ObjectInitializer.SetDefaultSubobjectClass<UGAS_CharacterMovementComponent
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	
 	AttributeSet = CreateDefaultSubobject<UGAS_AttributeSetBase>(TEXT("AttributeSet"));
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetMaxMovementSpeedAttribute())
+		.AddUObject(this, &ThisClass::OnMaxMovementSpeedChanged);
 
 	FootstepsComponent = CreateDefaultSubobject<UFootstepsComponent>(TEXT("FootstepsComponent"));
 }
@@ -207,11 +211,15 @@ void AGAS_Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		
 		// Jumping
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AGAS_Character::Jump);
-		//EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AGAS_Character::StopJumping);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AGAS_Character::StopJumping);
 
 		// Crouching
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &AGAS_Character::Crouch);
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGAS_Character::StopCrouching);
+
+		// Sprinting
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Started, this, &AGAS_Character::Sprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGAS_Character::StopSprinting);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AGAS_Character::Move);
@@ -292,6 +300,22 @@ void AGAS_Character::StopCrouching(const FInputActionValue& Value)
 	}
 }
 
+void AGAS_Character::Sprint(const FInputActionValue& Value)
+{
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->TryActivateAbilitiesByTag(SprintTags, true);
+	}
+}
+
+void AGAS_Character::StopSprinting(const FInputActionValue& Value)
+{
+	if (AbilitySystemComponent)
+	{
+		AbilitySystemComponent->CancelAbilities(&SprintTags);
+	}
+}
+
 void AGAS_Character::OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
 {
 	Super::OnStartCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
@@ -340,6 +364,11 @@ void AGAS_Character::SetCharacterData(const FCharacterData& InCharacterData)
 UFootstepsComponent* AGAS_Character::GetFootstepsComponent() const
 {
 	return FootstepsComponent;
+}
+
+void AGAS_Character::OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data)
+{
+	GetCharacterMovement()->MaxWalkSpeed = Data.NewValue;
 }
 
 void AGAS_Character::OnRep_CharacterData()

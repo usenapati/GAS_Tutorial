@@ -48,6 +48,10 @@ class AGAS_Character : public ACharacter, public IAbilitySystemInterface
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* CrouchAction;
 
+	/** Sprint Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
+
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
@@ -104,11 +108,17 @@ protected:
 	/** Called for jump input */
 	void StopJumping(const FInputActionValue& Value);
 
-	/** Called for jump input */
+	/** Called for crouch input */
 	void Crouch(const FInputActionValue& Value);
 
-	/** Called for jump input */
+	/** Called for crouch input */
 	void StopCrouching(const FInputActionValue& Value);
+
+	/** Called for sprint input */
+	void Sprint(const FInputActionValue& Value);
+
+	/** Called for stop sprint input */
+	void StopSprinting(const FInputActionValue& Value);
 
 	// Gameplay Effects
 	UPROPERTY(EditDefaultsOnly)
@@ -121,10 +131,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	FGameplayTagContainer CrouchTags;
 
+	UPROPERTY(EditDefaultsOnly)
+	FGameplayTagContainer SprintTags;
+
 	// Gameplay Effects
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> CrouchStateEffect;
-	
+
+	// Delegates
+	FDelegateHandle MaxMovementSpeedChangedDelegateHandle;
 	
 protected:
 	// APawn interface
@@ -147,6 +162,8 @@ public:
 	void SetCharacterData(const FCharacterData& InCharacterData);
 
 	class UFootstepsComponent* GetFootstepsComponent() const;
+
+	void OnMaxMovementSpeedChanged(const FOnAttributeChangeData& Data);
 
 protected:
 	UPROPERTY(Replicated = OnRep_CharacterData)
