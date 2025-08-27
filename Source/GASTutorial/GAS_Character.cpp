@@ -18,9 +18,19 @@
 #include "AbilitySystem/Components/GAS_AbilitySystemComponentBase.h"
 #include "ActorComponents/FootstepsComponent.h"
 #include "ActorComponents/GAS_CharacterMovementComponent.h"
+#include "ActorComponents/GAS_MotionWarpingComponent.h"
 #include "DataAssets/CharacterDataAsset.h"
 
 #include "Net/UnrealNetwork.h"
+
+class UGAS_AbilitySystemComponentBase;
+class UGAS_AttributeSetBase;
+
+class UGameplayEffect;
+class UGameplayAbility;
+
+class UGAS_MotionWarpingComponent;
+class UGAS_CharacterMovementComponent;
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -346,6 +356,11 @@ void AGAS_Character::OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightA
 	{
 		AbilitySystemComponent->RemoveActiveGameplayEffectBySourceEffect(CrouchStateEffect, AbilitySystemComponent);
 	}
+}
+
+UGAS_MotionWarpingComponent* AGAS_Character::GetMotionWarpingComponent() const
+{
+	return MotionWarpingComponent;
 }
 
 

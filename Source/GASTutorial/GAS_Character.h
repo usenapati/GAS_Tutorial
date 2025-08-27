@@ -7,6 +7,7 @@
 #include "GAS_Types.h"
 #include "InputActionValue.h"
 #include "Abilities/GameplayAbility.h"
+#include "ActorComponents/GAS_CharacterMovementComponent.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "GAS_Character.generated.h"
@@ -78,6 +79,8 @@ public:
 	virtual void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
 
 	virtual void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
+
+	UGAS_MotionWarpingComponent* GetMotionWarpingComponent() const;
 protected:
 	void GiveAbilities();
 
@@ -95,6 +98,11 @@ protected:
 
 	UPROPERTY(Transient)
 	UGAS_AttributeSetBase* AttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarp")
+	UGAS_MotionWarpingComponent* MotionWarpingComponent;
+
+	UGAS_CharacterMovementComponent* CharacterMovementComponent;
 
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
