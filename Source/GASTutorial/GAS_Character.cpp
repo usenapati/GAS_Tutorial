@@ -61,6 +61,8 @@ Super(ObjectInitializer.SetDefaultSubobjectClass<UGAS_CharacterMovementComponent
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
+	
+	CharacterMovementComponent = Cast<UGAS_CharacterMovementComponent>(GetCharacterMovement());
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -87,6 +89,8 @@ Super(ObjectInitializer.SetDefaultSubobjectClass<UGAS_CharacterMovementComponent
 		.AddUObject(this, &ThisClass::OnMaxMovementSpeedChanged);
 
 	FootstepsComponent = CreateDefaultSubobject<UFootstepsComponent>(TEXT("FootstepsComponent"));
+
+	MotionWarpingComponent = CreateDefaultSubobject<UGAS_MotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 
@@ -281,12 +285,7 @@ void AGAS_Character::Look(const FInputActionValue& Value)
 
 void AGAS_Character::Jump(const FInputActionValue& Value)
 {
-	FGameplayEventData Payload;
-
-	Payload.Instigator = this;
-	Payload.EventTag = JumpEventTag;
-
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(this, JumpEventTag, Payload);
+	CharacterMovementComponent->TryTraversal(AbilitySystemComponent);
 }
 
 void AGAS_Character::StopJumping(const FInputActionValue& Value)

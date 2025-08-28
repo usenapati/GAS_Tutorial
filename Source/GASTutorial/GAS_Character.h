@@ -12,6 +12,7 @@
 #include "Logging/LogMacros.h"
 #include "GAS_Character.generated.h"
 
+class UGAS_MotionWarpingComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;

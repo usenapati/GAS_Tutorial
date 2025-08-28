@@ -6,14 +6,13 @@
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
 
-static TAutoConsoleVariable<int32> CVarShowTraversal(
-	TEXT("ShowDebugTraversal"),
-	0,
-	TEXT("Draws debug info about traversal"),
-	TEXT(" 0: off/n"),
-	TEXT(" 1: on/n"),
-	ECVF_Cheat
-);
+static TAutoConsoleVariable CVarShowTraversal(TEXT("ShowDebugTraversal"),
+											  0,
+											  TEXT("Draws debug info about traversal\n"
+												   " 0 : off\n"
+												   " 1 : on\n"),
+
+											  ECVF_Cheat);
 
 bool UGAS_CharacterMovementComponent::TryTraversal(UAbilitySystemComponent* ASC)
 {
