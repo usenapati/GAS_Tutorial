@@ -60,11 +60,60 @@ bool UGA_Vault::CommitCheck(const FGameplayAbilitySpecHandle Handle, const FGame
 
 		if (UKismetSystemLibrary::SphereTraceSingleForObjects(this, TraceStart, TraceEnd, HorizontalTraceRadius, TraceObjectTypes, true, ActorsToIgnore, DebugDrawType, TraceHit, true))
 		{
-			
+			if (JumpToLocationIndex == INDEX_NONE && (i < HorizontalTraceCount - 1))
+			{
+				JumpToLocationIndex = i;
+				JumpOverLocation = TraceHit.Location;
+			}
+			else if (JumpToLocationIndex == (i - 1))
+			{
+				MaxJumpDistance = FVector::Dist2D(TraceHit.Location, TraceStart);
+				break;
+			}
+		}
+		else
+		{
+			if (JumpToLocationIndex != INDEX_NONE)
+			{
+				break;
+			}
 		}
 	}
+
+	if (JumpToLocationIndex == INDEX_NONE)
+	{
+		return false;
+	}
 	
-	
+	const float DistanceToJumpTo = FVector::Dist2D(StartLocation, JumpToLocation);
+
+	const float MaxVerticalTraceDistance = MaxJumpDistance - DistanceToJumpTo;
+
+	if (MaxVerticalTraceDistance < 0)
+	{
+		return false;
+	}
+
+	if (i == HorizontalTraceCount)
+	{
+		i = HorizontalTraceCount - 1;
+	}
+
+	const float VerticalTraceLength = FMath::Abs(JumpToLocation.Z - (StartLocation + i * UpVector * HorizontalTraceStep).Z);
+
+	FVector VerticalStartLocation = JumpToLocation + UpVector * VerticalTraceLength;
+
+	i = 0;
+
+	const float VerticalTraceCount = MaxVerticalTraceDistance / VerticalTraceStep;
+
+	bool bJumpOverLocationSet = false;
+
+	for (; i <= VerticalTraceCount; ++i)
+	{
+		const FVector TraceStart = VerticalStartLocation + i * ForwardVector * VerticalTraceStep;
+		const FVector TraceEnd = TraceStart + UpVector * VerticalTraceLength * -1;
+	}
 	return Super::CommitCheck(Handle, ActorInfo, ActivationInfo, OptionalRelevantTags);
 }
 
